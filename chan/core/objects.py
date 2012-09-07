@@ -119,8 +119,7 @@ class Thread(ChanObject):
             'id': self.id,
             'board': self.board.name,
             'url': self.url,
-            'name': self.original_post.subject,
-            'timestamp': self.original_post.timestamp,
+            'original_post': self.original_post.to_dict(),
             'replies': [reply.to_dict() for reply in self.replies],
         }
 
