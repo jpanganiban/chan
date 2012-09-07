@@ -8,6 +8,7 @@ __author__ = 'Jesse Panganiban'
 install_requires = [
     'lxml',
     'beautifulsoup4',
+    'requests',
 ]
 
 console_scripts = [
