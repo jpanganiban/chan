@@ -42,6 +42,10 @@ class Post(ChanObject):
         return self.__info.find('span', 'dateTime')['data-utc']
 
     @property
+    def message(self):
+        return self._soup.find('blockquote', 'postMessage')
+
+    @property
     def __file(self):
         return self._soup.find('div', 'file')
 
@@ -60,6 +64,7 @@ class Post(ChanObject):
             'id': self.id,
             'subject': self.subject,
             'timestamp': self.timestamp,
+            'message': self.message,
             'has_attachment': self.has_attachment,
             'attachment': self.attachment,
         }
