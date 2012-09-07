@@ -71,7 +71,7 @@ class Thread(ChanObject):
         super(Thread, self).__init__(*args, **kwargs)
         self._board = board
         self._id = id
-        if not self._soup:
+        if not hasattr(self, '_soup'):
             self.fetch()
         else:
             self._replies = self.__get_replies()
