@@ -14,9 +14,7 @@ def board(board):
 
 @app.route('/<board>/<thread_id>')
 def board_thread(board, thread_id):
-    board = objects.Board(board)
-    thread = board.threads.get(thread_id)
+    thread = Threads(board, thread_id)
     if not thread:
         abort(404)
-    thread.fetch()
     return jsonify(thread.to_dict())
