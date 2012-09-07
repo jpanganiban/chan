@@ -43,7 +43,7 @@ class Post(ChanObject):
 
     @property
     def message(self):
-        return self._soup.find('blockquote', 'postMessage')
+        return self._soup.find('blockquote', 'postMessage').text
 
     @property
     def __file(self):
