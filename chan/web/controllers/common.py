@@ -18,4 +18,5 @@ def board_thread(board, thread_id):
     thread = board.threads.get(thread_id)
     if not thread:
         abort(404)
+    thread.fetch()
     return jsonify(thread.to_dict())
