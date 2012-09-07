@@ -9,9 +9,11 @@ install_requires = [
     'lxml',
     'beautifulsoup4',
     'requests',
+    'flask',
 ]
 
 console_scripts = [
+    'chan.web.develop = chan.web:run_develop',
 ]
 entry_points = {
     'console_scripts': console_scripts

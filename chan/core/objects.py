@@ -31,11 +31,11 @@ class Post(ChanObject):
 
     @property
     def __info(self):
-        return self._soup.find('span', 'postInfo')
+        return self._soup.find('div', 'postInfo')
 
     @property
     def subject(self):
-        return self.__info.find('span', 'subject')['value']
+        return self.__info.find('span', 'subject').text
 
     @property
     def timestamp(self):
@@ -53,6 +53,15 @@ class Post(ChanObject):
     def attachment(self):
         return "http:%s" % self.__file.find('a', 'fileThumb')['href']
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'subject': self.subject,
+            'timestamp': self.timestamp,
+            'has_attachment': self.has_attachment,
+            'attachment': self.attachment,
+        }
+
 
 class Thread(ChanObject):
 
@@ -60,8 +69,11 @@ class Thread(ChanObject):
         super(Thread, self).__init__(*args, **kwargs)
         self._board = board
         self._id = id
-        self._replies = self.__get_replies()
-        self._original_post = self.__get_op()
+        if not self._soup:
+            self.fetch()
+        else:
+            self._replies = self.__get_replies()
+            self._original_post = self.__get_op()
 
     @property
     def board(self):
@@ -97,6 +109,16 @@ class Thread(ChanObject):
         self._replies = self.__get_replies()
         self._original_post = self.__get_op()
         return self
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'board': self.board.name,
+            'url': self.url,
+            'name': self.original_post.subject,
+            'timestamp': self.original_post.timestamp,
+            'replies': [reply.to_dict() for reply in self.replies],
+        }
 
 
 class Board(ChanObject):
@@ -151,3 +173,9 @@ class Board(ChanObject):
     def fetch(self):
         self._threads = self.__get_threads()
         return self
+
+    def to_dict(self):
+        return {
+            'name': self.name,
+            'threads': [thread.to_dict() for id, thread in self.threads.iteritems()],
+        }
