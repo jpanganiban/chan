@@ -51,7 +51,7 @@ class Post(ChanObject):
 
     @property
     def attachment(self):
-        if has_attachment:
+        if self.has_attachment:
             return "http:%s" % self.__file.find('a', 'fileThumb')['href']
         return None
 
