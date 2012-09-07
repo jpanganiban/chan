@@ -12,6 +12,7 @@ class ChanParser(object):
         self._board = board
         self._url = self.board_url % board
         self._page_count = 11
+        self._threads = None
 
     @property
     def url(self):
@@ -20,6 +21,10 @@ class ChanParser(object):
     @property
     def board(self):
         return self._board
+
+    @property
+    def threads(self):
+        return self._threads
 
     def _get_threads_ids(self, data):
         soup = BeautifulSoup(data, 'lxml')
@@ -39,4 +44,5 @@ class ChanParser(object):
             _threads = self._get_page_threads(page)
             for thread in _threads:
                 threads.add(thread)
-        return [thread for thread in threads]
+        self._threads = [thread for thread in threads]
+        return self._threads
